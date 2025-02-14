@@ -9,7 +9,7 @@ const ModernCV = () => {
           <div className="flex-shrink-0">
             <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200">
               <img
-                src="/src/assets/profile.png"
+                src="/profile.png"
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
