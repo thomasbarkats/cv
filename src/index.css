@@ -10,5 +10,6 @@
   body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    zoom: 0.85 !important;
   }
 }

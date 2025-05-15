@@ -44,7 +44,7 @@ export const CV = () => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white">
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg print:shadow-none">
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-start gap-6 mb-6">
@@ -151,7 +151,7 @@ export const CV = () => {
       <Section title="Work Experience">
         <div className="space-y-8">
           {experience.map((job, index) => (
-            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6">
+            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 print:border-none print:p-0">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
@@ -163,7 +163,7 @@ export const CV = () => {
               </div>
               <div className="space-y-6">
                 {job.sections.map((section, sIndex) => (
-                  <div key={sIndex} className="bg-gray-50 rounded-lg p-4">
+                  <div key={sIndex} className="bg-gray-50 rounded-lg p-4 print:bg-white print:p-0">
                     <h6 className="font-semibold text-gray-800 mb-3">{section.title}</h6>
                     {section.items ? (
                       <ul className="list-disc pl-5 space-y-3">
@@ -177,6 +177,9 @@ export const CV = () => {
                   </div>
                 ))}
               </div>
+              {index < experience.length - 1 && (
+                <div className="h-0 w-full bg-gray-200 print:h-[2px] print:mt-6"></div>
+              )}
             </div>
           ))}
         </div>
