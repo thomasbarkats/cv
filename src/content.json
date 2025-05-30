@@ -108,7 +108,7 @@
     ],
     "sideProjects": {
       "title": "Yasui (npmjs.com/yasui)",
-      "description": "A small framework built from-scratch over Express - inspired by NestJS for concepts - facilitating Node.js API setup."
+      "description": "Lightweight Express-based framework, simplifies REST API development with tools for controllers, middleware, endpoints, plus complete error management, logging, and dependency injection."
     }
   }
 }
