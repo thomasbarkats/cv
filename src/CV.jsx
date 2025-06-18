@@ -2,7 +2,7 @@ import { Github, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import PropTypes from 'prop-types';
 import cvData from './content.json';
 import DecryptedText from './blocks/TextAnimations/DecryptedText/DecryptedText';
-import FadeContent from './blocks/Animations/FadeContent/FadeContent';
+import { FadeContentPrintable } from './components/FadeContentPrintable';
 
 
 const Section = ({ title, children, className = "mb-6 sm:mb-8" }) => (
@@ -17,7 +17,7 @@ const SkillLevel = ({ level }) => (
     {[...Array(3)].map((_, i) => (
       <div
         key={i}
-        className={`w-2 h-2 rounded-full ${i < level ? 'bg-blue-500' : 'bg-gray-200'}`}
+        className={`w-2 h-2 rounded-full ${i < level ? 'bg-blue-500' : 'bg-white/70'}`}
       />
     ))}
   </div>
@@ -39,7 +39,7 @@ export const CV = () => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 bg-white bg-opacity-40 backdrop-blur-xl rounded-lg shadow-xl print:shadow-none">
+    <div className="w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 bg-white bg-opacity-40 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none">
 
       {/* Header */}
       <header className="mb-6 sm:mb-8">
@@ -52,7 +52,6 @@ export const CV = () => {
             </div>
           </div>
   
-          {/* Contact details */}
           <div className="flex-grow text-center sm:text-left">
 
             {/* Name & Title */}
@@ -63,7 +62,8 @@ export const CV = () => {
               <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
             </h2>
 
-            <FadeContent blur={true} threshold={0} duration={200} delay={100}>
+            {/* Contact details */}
+            <FadeContentPrintable blur={true} threshold={0} duration={200} delay={100}>
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm sm:text-base text-gray-600">
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <MapPin size={16} className="sm:w-[18px] sm:h-[18px]" />
@@ -92,23 +92,23 @@ export const CV = () => {
                   </a>
                 </div>
               </div>
-            </FadeContent>
+            </FadeContentPrintable>
           </div>
 
         </div>
       </header>
 
       {/* Summary */}
-      <FadeContent blur={true} threshold={0} duration={200} delay={200}>
+      <FadeContentPrintable blur={true} threshold={0} duration={200} delay={200}>
         <Section title="Summary">
           {summary.paragraphs.map((paragraph, index) => (
             <p key={index} className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">{paragraph}</p>
           ))}
         </Section>
-      </FadeContent>
+      </FadeContentPrintable>
 
       {/* Skills */}
-      <FadeContent blur={true} threshold={0} duration={200} delay={300}>
+      <FadeContentPrintable blur={true} threshold={0} duration={200} delay={300}>
         <Section title="Skills">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             <div className="lg:col-span-1">
@@ -159,10 +159,10 @@ export const CV = () => {
             </div>
           </div>
         </Section>
-      </FadeContent>
+      </FadeContentPrintable>
 
       {/* Experience */}
-      <FadeContent blur={true} threshold={0} duration={200} delay={400}>
+      <FadeContentPrintable fixMt={true} blur={true} threshold={0} duration={200} delay={400}>
         <Section title="Work Experience">
           <div className="space-y-6 sm:space-y-8">
             {experience.map((job, index) => (
@@ -172,7 +172,7 @@ export const CV = () => {
                     <h4 className="text-lg sm:text-xl font-semibold text-gray-800">{job.title}</h4>
                     <h5 className="text-base sm:text-lg text-gray-600">{job.company}</h5>
                   </div>
-                  <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap">
+                  <span className="bg-blue-100/50 text-blue-500 px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap">
                     {job.period}
                   </span>
                 </div>
@@ -199,10 +199,10 @@ export const CV = () => {
             ))}
           </div>
         </Section>
-      </FadeContent>
+      </FadeContentPrintable>
 
       {/* Education */}
-      <FadeContent blur={true} threshold={0} duration={200} delay={500}>
+      <FadeContentPrintable fixMt={true} blur={true} threshold={0} duration={200} delay={500}>
         <Section title="Education">
           <div>
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-1 sm:gap-2">
@@ -220,10 +220,10 @@ export const CV = () => {
             </ul>
           </div>
         </Section>
-      </FadeContent>
+      </FadeContentPrintable>
 
       {/* Additional Information */}
-      <FadeContent blur={true} threshold={0} duration={200} delay={600}>
+      <FadeContentPrintable blur={true} threshold={0} duration={200} delay={600}>
         <Section title="Additional Information" className="mb-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div className="grid gap-4 sm:gap-6">
@@ -257,7 +257,7 @@ export const CV = () => {
             </div>
           </div>
         </Section>
-      </FadeContent>
+      </FadeContentPrintable>
     </div>
   );
 };

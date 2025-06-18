@@ -10,7 +10,7 @@ import Iridescence from './blocks/Backgrounds/Iridescence/Iridescence';
 const PrintButton = () => (
   <button
     onClick={() => window.print()}
-    className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 p-2 sm:p-3 bg-white/70 hover:bg-white shadow-xl rounded-full text-gray-600 hover:text-gray-800 transition-all duration-200 backdrop-blur-sm print:hidden z-20"
+    className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 p-2 sm:p-3 max-sm:hidden bg-white/70 hover:bg-white shadow-xl rounded-full text-gray-600 hover:text-gray-800 transition-all duration-200 backdrop-blur-sm print:hidden z-20"
     aria-label="Imprimer le CV"
   >
     <Printer size={20} className="sm:w-6 sm:h-6" />
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <div className="min-h-screen bg-white py-4 sm:py-6 lg:py-8 relative overflow-hidden print:py-0">
       <div className="absolute inset-0 w-full h-full print:hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-300 to-yellow-200 opacity-70 filter blur-xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-300 to-yellow-200 opacity-50"></div>
         <Iridescence
           color={[1, 1, 1]}
           mouseReact={false}
