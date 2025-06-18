@@ -45,22 +45,25 @@ export const CV = () => {
       <header className="mb-8">
         <div className="flex items-start gap-6 mb-6">
 
-          {/* Name & Title */}
+          {/* Photo */}
           <div className="flex-shrink-0">
-            <div className="w-36 h-36 rounded-full overflow-hidden bg-gray-100 bg-opacity-70 border-4 border-white/50">
+            <div className="w-36 h-36 rounded-full overflow-hidden bg-gray-100 bg-opacity-70 border-4 border-white/20">
               <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
   
           {/* Contact details */}
-          <FadeContent blur={true} threshold={0} duration={200} delay={100}>
-            <div className="flex-grow">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={20} />
-              </h1>
-              <h2 className="text-xl text-gray-600 mb-4">
-                <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
-              </h2>
+          <div className="flex-grow">
+
+            {/* Name & Title */}
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={20} />
+            </h1>
+            <h2 className="text-xl text-gray-600 mb-4">
+              <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
+            </h2>
+
+            <FadeContent blur={true} threshold={0} duration={200} delay={100}>
               <div className="flex flex-wrap gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
                   <MapPin size={18} />
@@ -89,8 +92,8 @@ export const CV = () => {
                   </a>
                 </div>
               </div>
-            </div>
-          </FadeContent>
+            </FadeContent>
+          </div>
 
         </div>
       </header>
