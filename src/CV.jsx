@@ -1,6 +1,8 @@
 import { Github, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import PropTypes from 'prop-types';
 import cvData from './content.json';
+import DecryptedText from './blocks/TextAnimations/DecryptedText/DecryptedText';
+import FadeContent from './blocks/Animations/FadeContent/FadeContent';
 
 
 const Section = ({ title, children, className = "mb-8" }) => (
@@ -37,76 +39,79 @@ export const CV = () => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white bg-opacity-70 backdrop-blur-3xl rounded-lg shadow-xl print:shadow-none">
+    <div className="max-w-4xl mx-auto p-8 bg-white bg-opacity-40 backdrop-blur-xl rounded-lg shadow-xl print:shadow-none">
+
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-start gap-6 mb-6">
+
+          {/* Name & Title */}
           <div className="flex-shrink-0">
             <div className="w-36 h-36 rounded-full overflow-hidden bg-gray-100 bg-opacity-70 border-4 border-white/50">
               <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
-          <div className="flex-grow">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">{personalInfo.name}</h1>
-            <h2 className="text-xl text-gray-600 mb-4">{personalInfo.title}</h2>
-            <div className="flex flex-wrap gap-4 text-gray-600">
-              <div className="flex items-center gap-2">
-                <MapPin size={18} />
-                <span>{personalInfo.location}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone size={18} />
-                <span>{personalInfo.phone}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail size={18} />
-                <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800">
-                  {personalInfo.email}
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Linkedin size={18} />
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">
-                  {personalInfo.linkedin}
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Github size={18} />
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">
-                  {personalInfo.github}
-                </a>
+  
+          {/* Contact details */}
+          <FadeContent blur={true} threshold={0} duration={200} delay={100}>
+            <div className="flex-grow">
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={20} />
+              </h1>
+              <h2 className="text-xl text-gray-600 mb-4">
+                <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
+              </h2>
+              <div className="flex flex-wrap gap-4 text-gray-600">
+                <div className="flex items-center gap-2">
+                  <MapPin size={18} />
+                  <span>{personalInfo.location}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone size={18} />
+                  <span>{personalInfo.phone}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail size={18} />
+                  <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800">
+                    {personalInfo.email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Linkedin size={18} />
+                  <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">
+                    {personalInfo.linkedin}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Github size={18} />
+                  <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">
+                    {personalInfo.github}
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          </FadeContent>
+
         </div>
       </header>
 
       {/* Summary */}
-      <Section title="Summary">
-        {summary.paragraphs.map((paragraph, index) => (
-          <p key={index} className="text-gray-700 mb-4">{paragraph}</p>
-        ))}
-      </Section>
+      <FadeContent blur={true} threshold={0} duration={200} delay={200}>
+        <Section title="Summary">
+          {summary.paragraphs.map((paragraph, index) => (
+            <p key={index} className="text-gray-700 mb-4">{paragraph}</p>
+          ))}
+        </Section>
+      </FadeContent>
 
       {/* Skills */}
-      <Section title="Skills">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Technical Skills</h4>
-            <div className="space-y-2">
-              {skills.technical.map(([skill, level]) => (
-                <div key={skill} className="flex items-center justify-between">
-                  <span className="text-gray-700">{skill}</span>
-                  <SkillLevel level={level} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-6">
+      <FadeContent blur={true} threshold={0} duration={200} delay={300}>
+        <Section title="Skills">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
-              <h4 className="text-lg font-semibold mb-2">Archi. & Dev. Concepts</h4>
+              <h4 className="text-lg font-semibold mb-2">Technical Skills</h4>
               <div className="space-y-2">
-                {skills.architectural.map(([skill, level]) => (
+                {skills.technical.map(([skill, level]) => (
                   <div key={skill} className="flex items-center justify-between">
                     <span className="text-gray-700">{skill}</span>
                     <SkillLevel level={level} />
@@ -114,10 +119,34 @@ export const CV = () => {
                 ))}
               </div>
             </div>
+            <div className="grid gap-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Archi. & Dev. Concepts</h4>
+                <div className="space-y-2">
+                  {skills.architectural.map(([skill, level]) => (
+                    <div key={skill} className="flex items-center justify-between">
+                      <span className="text-gray-700">{skill}</span>
+                      <SkillLevel level={level} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Application Knowledge</h4>
+                <div className="space-y-2">
+                  {skills.application.map(([skill, level]) => (
+                    <div key={skill} className="flex items-center justify-between">
+                      <span className="text-gray-700">{skill}</span>
+                      <SkillLevel level={level} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
             <div>
-              <h4 className="text-lg font-semibold mb-2">Application Knowledge</h4>
+              <h4 className="text-lg font-semibold mb-2">Other Relevant Skills</h4>
               <div className="space-y-2">
-                {skills.application.map(([skill, level]) => (
+                {skills.other.map(([skill, level]) => (
                   <div key={skill} className="flex items-center justify-between">
                     <span className="text-gray-700">{skill}</span>
                     <SkillLevel level={level} />
@@ -126,111 +155,106 @@ export const CV = () => {
               </div>
             </div>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Other Relevant Skills</h4>
-            <div className="space-y-2">
-              {skills.other.map(([skill, level]) => (
-                <div key={skill} className="flex items-center justify-between">
-                  <span className="text-gray-700">{skill}</span>
-                  <SkillLevel level={level} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Section>
+        </Section>
+      </FadeContent>
 
       {/* Experience */}
-      <Section title="Work Experience">
-        <div className="space-y-8">
-          {experience.map((job, index) => (
-            <div key={index} className="bg-white bg-opacity-70 rounded-lg border border-gray-200 p-6 print:border-none print:p-0">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
-                  <h5 className="text-lg text-gray-600">{job.company}</h5>
-                </div>
-                <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                  {job.period}
-                </span>
-              </div>
-              <div className="space-y-6">
-                {job.sections.map((section, sIndex) => (
-                  <div key={sIndex} className="bg-gray-100 bg-opacity-70 rounded-lg p-4 print:bg-white print:p-0">
-                    <h6 className="font-semibold text-gray-800 mb-3">{section.title}</h6>
-                    {section.items ? (
-                      <ul className="list-disc pl-5 space-y-3">
-                        {section.items.map((item, iIndex) => (
-                          <li key={iIndex}>{item}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-gray-700">{section.text}</p>
-                    )}
+      <FadeContent blur={true} threshold={0} duration={200} delay={400}>
+        <Section title="Work Experience">
+          <div className="space-y-8">
+            {experience.map((job, index) => (
+              <div key={index} className="bg-white bg-opacity-40 rounded-lg border border-gray-200 p-6 print:border-none print:p-0">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
+                    <h5 className="text-lg text-gray-600">{job.company}</h5>
                   </div>
-                ))}
+                  <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                    {job.period}
+                  </span>
+                </div>
+                <div className="space-y-6">
+                  {job.sections.map((section, sIndex) => (
+                    <div key={sIndex} className="bg-gray-200 bg-opacity-25 border border-gray-200 rounded-lg p-4 print:bg-white print:p-0">
+                      <h6 className="font-semibold text-gray-800 mb-3">{section.title}</h6>
+                      {section.items ? (
+                        <ul className="list-disc pl-5 space-y-3">
+                          {section.items.map((item, iIndex) => (
+                            <li key={iIndex}>{item}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-gray-700">{section.text}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {index < experience.length - 1 && (
+                  <div className="h-0 w-full bg-gray-200 print:h-[2px] print:mt-6"></div>
+                )}
               </div>
-              {index < experience.length - 1 && (
-                <div className="h-0 w-full bg-gray-200 print:h-[2px] print:mt-6"></div>
-              )}
-            </div>
-          ))}
-        </div>
-      </Section>
+            ))}
+          </div>
+        </Section>
+      </FadeContent>
 
       {/* Education */}
-      <Section title="Education">
-        <div>
-          <div className="flex justify-between items-start mb-2">
-            <div>
-              <h4 className="text-xl font-semibold text-gray-800">{education.degree}</h4>
-              <h5 className="text-lg text-gray-600">{education.school}</h5>
+      <FadeContent blur={true} threshold={0} duration={200} delay={500}>
+        <Section title="Education">
+          <div>
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <h4 className="text-xl font-semibold text-gray-800">{education.degree}</h4>
+                <h5 className="text-lg text-gray-600">{education.school}</h5>
+              </div>
+              {/* Don't display dates to avoid age discrimination? */}
+              {/* <span className="text-gray-600">{education.period}</span> */}
             </div>
-            {/* Don't display dates to avoid age discrimination? */}
-            {/* <span className="text-gray-600">{education.period}</span> */}
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              {education.details.map((detail, index) => (
+                <li key={index}>{detail}</li>
+              ))}
+            </ul>
           </div>
-          <ul className="list-disc pl-5 space-y-2 text-gray-700">
-            {education.details.map((detail, index) => (
-              <li key={index}>{detail}</li>
-            ))}
-          </ul>
-        </div>
-      </Section>
+        </Section>
+      </FadeContent>
 
       {/* Additional Information */}
-      <Section title="Additional Information" className="mb-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="grid gap-6">
-            <div>
-              <h4 className="text-lg font-semibold mb-2">Languages</h4>
-              <ul className="space-y-1 text-gray-700">
-                {additional.languages.map((language, index) => (
-                  <li key={index}>{language}</li>
-                ))}
-              </ul>
+      <FadeContent blur={true} threshold={0} duration={200} delay={600}>
+        <Section title="Additional Information" className="mb-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid gap-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Languages</h4>
+                <ul className="space-y-1 text-gray-700">
+                  {additional.languages.map((language, index) => (
+                    <li key={index}>{language}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Certifications</h4>
+                <ul className="space-y-1 text-gray-700">
+                  {additional.certifications.map(({ label, link }, index) => (
+                    <li key={index}>
+                      <a className="text-blue-600 hover:text-blue-800" href={link} target="_blank">{label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-2">Certifications</h4>
-              <ul className="space-y-1 text-gray-700">
-                {additional.certifications.map(({ label, link }, index) => (
-                  <li key={index}>
-                    <a className="text-blue-600 hover:text-blue-800" href={link} target="_blank">{label}</a>
-                  </li>
-                ))}
-              </ul>
+              <h4 className="text-lg font-semibold mb-2">Side Projects</h4>
+              <div className="text-gray-700">
+                <p className="font-semibold pb-1">
+                  <a className="text-blue-600 hover:text-blue-800" href={additional.sideProjects.link} target="_blank">{additional.sideProjects.title}</a>
+                </p>
+                <p>{additional.sideProjects.description}</p>
+              </div>
             </div>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Side Projects</h4>
-            <div className="text-gray-700">
-              <p className="font-semibold pb-1">
-                <a className="text-blue-600 hover:text-blue-800" href={additional.sideProjects.link} target="_blank">{additional.sideProjects.title}</a>
-              </p>
-              <p>{additional.sideProjects.description}</p>
-            </div>
-          </div>
-        </div>
-      </Section>
+        </Section>
+      </FadeContent>
     </div>
   );
 };
