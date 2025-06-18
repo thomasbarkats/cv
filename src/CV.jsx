@@ -1,6 +1,7 @@
-import { Github, Linkedin, Mail, Phone, MapPin, Printer } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import PropTypes from 'prop-types';
 import cvData from './content.json';
+
 
 const Section = ({ title, children, className = "mb-8" }) => (
   <section className={className}>
@@ -20,6 +21,7 @@ const SkillLevel = ({ level }) => (
   </div>
 );
 
+
 Section.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
@@ -30,26 +32,17 @@ SkillLevel.propTypes = {
   level: PropTypes.number.isRequired
 };
 
-const PrintButton = () => (
-  <button
-    onClick={() => window.print()}
-    className="fixed bottom-8 right-8 p-3 bg-white/80 hover:bg-white shadow-lg rounded-full text-gray-600 hover:text-gray-800 transition-all duration-200 backdrop-blur-sm print:hidden"
-    aria-label="Imprimer le CV"
-  >
-    <Printer size={24} />
-  </button>
-);
 
 export const CV = () => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg print:shadow-none">
+    <div className="max-w-4xl mx-auto p-8 bg-white bg-opacity-70 backdrop-blur-3xl rounded-lg shadow-xl print:shadow-none">
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-start gap-6 mb-6">
           <div className="flex-shrink-0">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200">
+            <div className="w-36 h-36 rounded-full overflow-hidden bg-gray-100 bg-opacity-70 border-4 border-white/50">
               <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
@@ -151,7 +144,7 @@ export const CV = () => {
       <Section title="Work Experience">
         <div className="space-y-8">
           {experience.map((job, index) => (
-            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 print:border-none print:p-0">
+            <div key={index} className="bg-white bg-opacity-70 rounded-lg border border-gray-200 p-6 print:border-none print:p-0">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
@@ -163,7 +156,7 @@ export const CV = () => {
               </div>
               <div className="space-y-6">
                 {job.sections.map((section, sIndex) => (
-                  <div key={sIndex} className="bg-gray-50 rounded-lg p-4 print:bg-white print:p-0">
+                  <div key={sIndex} className="bg-gray-100 bg-opacity-70 rounded-lg p-4 print:bg-white print:p-0">
                     <h6 className="font-semibold text-gray-800 mb-3">{section.title}</h6>
                     {section.items ? (
                       <ul className="list-disc pl-5 space-y-3">
@@ -193,7 +186,8 @@ export const CV = () => {
               <h4 className="text-xl font-semibold text-gray-800">{education.degree}</h4>
               <h5 className="text-lg text-gray-600">{education.school}</h5>
             </div>
-            <span className="text-gray-600">{education.period}</span>
+            {/* Don't display dates to avoid age discrimination? */}
+            {/* <span className="text-gray-600">{education.period}</span> */}
           </div>
           <ul className="list-disc pl-5 space-y-2 text-gray-700">
             {education.details.map((detail, index) => (
@@ -218,8 +212,10 @@ export const CV = () => {
             <div>
               <h4 className="text-lg font-semibold mb-2">Certifications</h4>
               <ul className="space-y-1 text-gray-700">
-                {additional.certifications.map((cert, index) => (
-                  <li key={index}>{cert}</li>
+                {additional.certifications.map(({ label, link }, index) => (
+                  <li key={index}>
+                    <a className="text-blue-600 hover:text-blue-800" href={link} target="_blank">{label}</a>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -227,14 +223,14 @@ export const CV = () => {
           <div>
             <h4 className="text-lg font-semibold mb-2">Side Projects</h4>
             <div className="text-gray-700">
-              <p className="font-semibold">{additional.sideProjects.title}</p>
+              <p className="font-semibold pb-1">
+                <a className="text-blue-600 hover:text-blue-800" href={additional.sideProjects.link} target="_blank">{additional.sideProjects.title}</a>
+              </p>
               <p>{additional.sideProjects.description}</p>
             </div>
           </div>
         </div>
       </Section>
-
-      <PrintButton />
     </div>
   );
 };

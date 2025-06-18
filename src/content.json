@@ -3,7 +3,7 @@
     "name": "Thomas BARKATS",
     "title": "Software Engineer (web, Full-stack)",
     "location": "Montréal, QC, Canada",
-    "phone": "+1 263-382-1780 / +33 784451787",
+    "phone": "+1 263-382-1780",
     "email": "thomasbarkats@gmail.com",
     "linkedin": "linkedin.com/in/thomas-barkats",
     "github": "github.com/thomasbarkats"
@@ -104,10 +104,14 @@
       "English (Business Level, TOEIC)"
     ],
     "certifications": [
-      "Certification Scrum Master PSM I."
+      {
+        "label": "Certification Scrum Master PSM I.",
+        "link": "https://www.credly.com/badges/c2a784df-83c8-463c-b13b-5ef0afc8bada"
+      }
     ],
     "sideProjects": {
       "title": "Yasui (npmjs.com/yasui)",
+      "link": "https://www.npmjs.com/package/yasui",
       "description": "Lightweight Express-based framework, simplifies REST API development with tools for controllers, middleware, endpoints, plus complete error management, logging, and dependency injection."
     }
   }
