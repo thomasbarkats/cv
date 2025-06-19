@@ -26,10 +26,10 @@ export const CVHeader = ({ personalInfo, profileSrc, isDark }) => {
 
           {/* Name & Title */}
           <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
-            <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={20} />
+            <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={15} />
           </h1>
           <h2 className={`text-lg sm:text-xl mb-4 transition-colors duration-300 ${getTextColor('secondary')}`}>
-            <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
+            <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={15} />
           </h2>
 
           {/* Contact details */}
