@@ -25,7 +25,11 @@ export const CVPage = ({ isDark }) => {
     <div className={`w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none transition-all duration-300 ${mainBg}`}>
 
       {/* Header */}
-      <CVHeader personalInfo={personalInfo} isDark={isDark} />
+      <CVHeader
+        personalInfo={personalInfo}
+        profileSrc="https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile-cv.png"
+        isDark={isDark}
+      />
 
       {/* Summary */}
       <FadeContentPrintable blur={true} threshold={0} duration={200} delay={200}>

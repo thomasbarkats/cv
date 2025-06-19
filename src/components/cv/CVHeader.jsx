@@ -4,7 +4,7 @@ import DecryptedText from '../../blocks/TextAnimations/DecryptedText/DecryptedTe
 import { FadeContentPrintable } from '../FadeContentPrintable';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
 
-export const CVHeader = ({ personalInfo, isDark }) => {
+export const CVHeader = ({ personalInfo, profileSrc, isDark }) => {
   const { getTextColor, link } = useThemeStyles(isDark);
 
   return (
@@ -18,7 +18,7 @@ export const CVHeader = ({ personalInfo, isDark }) => {
               ? 'bg-gray-700/70 border-gray-600/20' 
               : 'bg-gray-100/70 border-white/20'
           }`}>
-            <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
+            <img src={profileSrc} alt="Profile" className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -80,5 +80,6 @@ CVHeader.propTypes = {
     linkedin: PropTypes.string.isRequired,
     github: PropTypes.string.isRequired
   }).isRequired,
+  profileSrc: PropTypes.string.isRequired,
   isDark: PropTypes.bool.isRequired
 };

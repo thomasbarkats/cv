@@ -1,10 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cvData from '../content.json';
 import { CVHeader } from '../components/cv/CVHeader';
 import { useThemeStyles } from '../hooks/useThemeStyles';
 import { useTiltEffect } from '../hooks/useTiltEffect';
 import { usePageTitle } from '../hooks/usePageTitle';
+
 
 export const BusinessCard = ({ isDark }) => {
   const { personalInfo } = cvData;
@@ -46,7 +46,11 @@ export const BusinessCard = ({ isDark }) => {
         
         {/* Content with subtle 3D effect - only on desktop */}
         <div style={{ transform: isMobile ? undefined : 'translateZ(20px)' }}>
-          <CVHeader personalInfo={personalInfo} isDark={isDark} />
+          <CVHeader
+            personalInfo={personalInfo}
+            profileSrc="https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile.png"
+            isDark={isDark}
+          />
         </div>
       </div>
     </div>
