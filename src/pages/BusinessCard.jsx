@@ -4,6 +4,7 @@ import { CVHeader } from '../components/cv/CVHeader';
 import { useThemeStyles } from '../hooks/useThemeStyles';
 import { useTiltEffect } from '../hooks/useTiltEffect';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useFavicon } from '../hooks/useFavicon';
 
 
 export const BusinessCard = ({ isDark }) => {
@@ -15,7 +16,10 @@ export const BusinessCard = ({ isDark }) => {
     perspective: 1200
   });
 
+  const PROFILE_SRC = "https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile.png";
+
   usePageTitle(personalInfo.name);
+  useFavicon(PROFILE_SRC);
 
   return (
     <div 
@@ -46,11 +50,7 @@ export const BusinessCard = ({ isDark }) => {
         
         {/* Content with subtle 3D effect - only on desktop */}
         <div style={{ transform: isMobile ? undefined : 'translateZ(20px)' }}>
-          <CVHeader
-            personalInfo={personalInfo}
-            profileSrc="https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile.png"
-            isDark={isDark}
-          />
+          <CVHeader personalInfo={personalInfo} profileSrc={PROFILE_SRC}  isDark={isDark} />
         </div>
       </div>
     </div>

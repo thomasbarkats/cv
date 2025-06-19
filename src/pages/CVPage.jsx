@@ -6,6 +6,7 @@ import { Section } from '../components/common/Section';
 import { SkillLevel } from '../components/common/SkillLevel';
 import { useThemeStyles } from '../hooks/useThemeStyles';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useFavicon } from '../hooks/useFavicon';
 
 export const CVPage = ({ isDark }) => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
@@ -19,17 +20,16 @@ export const CVPage = ({ isDark }) => {
     badgeBg 
   } = useThemeStyles(isDark);
 
+  const PROFILE_SRC = "https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile-cv.png";
+
   usePageTitle(`${personalInfo.name} - CV`);
+  useFavicon(PROFILE_SRC);
 
   return (
     <div className={`w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none transition-all duration-300 ${mainBg}`}>
 
       {/* Header */}
-      <CVHeader
-        personalInfo={personalInfo}
-        profileSrc="https://raw.githubusercontent.com/thomasbarkats/assets/refs/heads/main/personal-website/profile-cv.png"
-        isDark={isDark}
-      />
+      <CVHeader personalInfo={personalInfo} profileSrc={PROFILE_SRC}  isDark={isDark} />
 
       {/* Summary */}
       <FadeContentPrintable blur={true} threshold={0} duration={200} delay={200}>
