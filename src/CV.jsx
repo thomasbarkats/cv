@@ -3,80 +3,25 @@ import PropTypes from 'prop-types';
 import cvData from './content.json';
 import DecryptedText from './blocks/TextAnimations/DecryptedText/DecryptedText';
 import { FadeContentPrintable } from './components/FadeContentPrintable';
-
-
-const Section = ({ title, children, className = "mb-6 sm:mb-8", isDark }) => (
-  <section className={className}>
-    <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 pb-2 border-b transition-colors duration-300 ${
-      isDark 
-        ? 'text-gray-100 border-gray-600/50' 
-        : 'text-gray-800 border-white/50'
-    }`}>
-      {title}
-    </h3>
-    {children}
-  </section>
-);
-
-Section.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  isDark: PropTypes.bool.isRequired
-};
-
-
-const SkillLevel = ({ level, isDark }) => (
-  <div className="flex gap-1">
-    {[...Array(3)].map((_, i) => (
-      <div
-        key={i}
-        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-          i < level 
-            ? (isDark ? 'bg-blue-400' : 'bg-blue-500')
-            : (isDark ? 'bg-gray-600/70' : 'bg-white/70')
-        }`}
-      />
-    ))}
-  </div>
-);
-
-SkillLevel.propTypes = {
-  level: PropTypes.number.isRequired,
-  isDark: PropTypes.bool.isRequired
-};
+import { Section } from './components/common/Section';
+import { SkillLevel } from './components/common/SkillLevel';
+import { useThemeStyles } from './hooks/useThemeStyles';
 
 
 export const CV = ({ isDark }) => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
-
-  const getTextColor = (type) => {
-    if (!isDark) {
-      switch (type) {
-        case 'primary': return 'text-gray-800';
-        case 'secondary': return 'text-gray-600';
-        case 'body': return 'text-gray-700';
-        default: return 'text-gray-700';
-      }
-    } else {
-      switch (type) {
-        case 'primary': return 'text-gray-100';
-        case 'secondary': return 'text-gray-300';
-        case 'body': return 'text-gray-200';
-        default: return 'text-gray-200';
-      }
-    }
-  };
-
-  const getLinkColor = () => isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800';
-  const getCardBg = () => isDark ? 'bg-gray-800/40' : 'bg-white/40';
-  const getMainBg = () => isDark ? 'bg-gray-800/40' : 'bg-white/40';
-  const getBorderColor = () => isDark ? 'border-gray-600' : 'border-gray-200';
-  const getNestedBg = () => isDark ? 'bg-gray-700/25 border-gray-600' : 'bg-gray-200/25 border-gray-200';
-  const getBadgeBg = () => isDark ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100/50 text-blue-500';
+  const { 
+    getTextColor, 
+    link, 
+    cardBg, 
+    mainBg, 
+    borderColor, 
+    nestedBg, 
+    badgeBg 
+  } = useThemeStyles(isDark);
 
   return (
-    <div className={`w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none transition-all duration-300 ${getMainBg()}`}>
+    <div className={`w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none transition-all duration-300 ${mainBg}`}>
 
       {/* Header */}
       <header className="mb-6 sm:mb-8">
@@ -116,19 +61,19 @@ export const CV = ({ isDark }) => {
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Mail size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`mailto:${personalInfo.email}`} className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
+                  <a href={`mailto:${personalInfo.email}`} className={`break-all transition-colors duration-300 ${link}`}>
                     {personalInfo.email}
                   </a>
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Linkedin size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
+                  <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${link}`}>
                     {personalInfo.linkedin}
                   </a>
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Github size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
+                  <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${link}`}>
                     {personalInfo.github}
                   </a>
                 </div>
@@ -225,7 +170,7 @@ export const CV = ({ isDark }) => {
         <Section title="Work Experience" isDark={isDark}>
           <div className="space-y-6 sm:space-y-8">
             {experience.map((job, index) => (
-              <div key={index} className={`rounded-lg border p-4 sm:p-6 print:border-none print:p-0 transition-all duration-300 ${getCardBg()} ${getBorderColor()}`}>
+              <div key={index} className={`rounded-lg border p-4 sm:p-6 print:border-none print:p-0 transition-all duration-300 ${cardBg} ${borderColor}`}>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
                   <div className="flex-grow">
                     <h4 className={`text-lg sm:text-xl font-semibold transition-colors duration-300 ${getTextColor('primary')}`}>
@@ -235,13 +180,13 @@ export const CV = ({ isDark }) => {
                       {job.company}
                     </h5>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap transition-colors duration-300 ${getBadgeBg()}`}>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap transition-colors duration-300 ${badgeBg}`}>
                     {job.period}
                   </span>
                 </div>
                 <div className="space-y-4 sm:space-y-6">
                   {job.sections.map((section, sIndex) => (
-                    <div key={sIndex} className={`border rounded-lg p-3 sm:p-4 print:bg-white print:p-0 transition-all duration-300 ${getNestedBg()}`}>
+                    <div key={sIndex} className={`border rounded-lg p-3 sm:p-4 print:bg-white print:p-0 transition-all duration-300 ${nestedBg}`}>
                       <h6 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base transition-colors duration-300 ${getTextColor('primary')}`}>
                         {section.title}
                       </h6>
@@ -317,9 +262,9 @@ export const CV = ({ isDark }) => {
                   Certifications
                 </h4>
                 <ul className={`space-y-1 text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
-                  {additional.certifications.map(({ label, link }, index) => (
+                  {additional.certifications.map(({ label, link: certLink }, index) => (
                     <li key={index}>
-                      <a className={`break-words transition-colors duration-300 ${getLinkColor()}`} href={link} target="_blank">
+                      <a className={`break-words transition-colors duration-300 ${link}`} href={certLink} target="_blank" rel="noreferrer">
                         {label}
                       </a>
                     </li>
@@ -333,7 +278,7 @@ export const CV = ({ isDark }) => {
               </h4>
               <div className={`text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
                 <p className="font-semibold pb-1">
-                  <a className={`break-words transition-colors duration-300 ${getLinkColor()}`} href={additional.sideProjects.link} target="_blank">
+                  <a className={`break-words transition-colors duration-300 ${link}`} href={additional.sideProjects.link} target="_blank" rel="noreferrer">
                     {additional.sideProjects.title}
                   </a>
                 </p>

@@ -8,7 +8,7 @@ export const FadeContentPrintable = ({ children, fixMt, ...otherProps }) => {
       <FadeContent {...otherProps} className="print:hidden">
         {children}
       </FadeContent>
-      <div className={`hidden print:block ${ fixMt ? 'mt-8' : '' }`}>
+      <div className={`hidden print:block ${fixMt ? 'mt-8' : ''}`}>
         {children}
       </div>
     </>
