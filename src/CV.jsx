@@ -5,41 +5,78 @@ import DecryptedText from './blocks/TextAnimations/DecryptedText/DecryptedText';
 import { FadeContentPrintable } from './components/FadeContentPrintable';
 
 
-const Section = ({ title, children, className = "mb-6 sm:mb-8" }) => (
+const Section = ({ title, children, className = "mb-6 sm:mb-8", isDark }) => (
   <section className={className}>
-    <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 pb-2 border-b border-white/50">{title}</h3>
+    <h3 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 pb-2 border-b transition-colors duration-300 ${
+      isDark 
+        ? 'text-gray-100 border-gray-600/50' 
+        : 'text-gray-800 border-white/50'
+    }`}>
+      {title}
+    </h3>
     {children}
   </section>
 );
 
-const SkillLevel = ({ level }) => (
+Section.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  isDark: PropTypes.bool.isRequired
+};
+
+
+const SkillLevel = ({ level, isDark }) => (
   <div className="flex gap-1">
     {[...Array(3)].map((_, i) => (
       <div
         key={i}
-        className={`w-2 h-2 rounded-full ${i < level ? 'bg-blue-500' : 'bg-white/70'}`}
+        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+          i < level 
+            ? (isDark ? 'bg-blue-400' : 'bg-blue-500')
+            : (isDark ? 'bg-gray-600/70' : 'bg-white/70')
+        }`}
       />
     ))}
   </div>
 );
 
-
-Section.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string
-};
-
 SkillLevel.propTypes = {
-  level: PropTypes.number.isRequired
+  level: PropTypes.number.isRequired,
+  isDark: PropTypes.bool.isRequired
 };
 
 
-export const CV = () => {
+export const CV = ({ isDark }) => {
   const { personalInfo, summary, skills, experience, education, additional } = cvData;
 
+  const getTextColor = (type) => {
+    if (!isDark) {
+      switch (type) {
+        case 'primary': return 'text-gray-800';
+        case 'secondary': return 'text-gray-600';
+        case 'body': return 'text-gray-700';
+        default: return 'text-gray-700';
+      }
+    } else {
+      switch (type) {
+        case 'primary': return 'text-gray-100';
+        case 'secondary': return 'text-gray-300';
+        case 'body': return 'text-gray-200';
+        default: return 'text-gray-200';
+      }
+    }
+  };
+
+  const getLinkColor = () => isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800';
+  const getCardBg = () => isDark ? 'bg-gray-800/40' : 'bg-white/40';
+  const getMainBg = () => isDark ? 'bg-gray-800/40' : 'bg-white/40';
+  const getBorderColor = () => isDark ? 'border-gray-600' : 'border-gray-200';
+  const getNestedBg = () => isDark ? 'bg-gray-700/25 border-gray-600' : 'bg-gray-200/25 border-gray-200';
+  const getBadgeBg = () => isDark ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100/50 text-blue-500';
+
   return (
-    <div className="w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 bg-white bg-opacity-40 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none">
+    <div className={`w-full max-w-4xl mx-auto px-6 py-6 pb-8 sm:px-6 sm:py-6 sm:pb-10 lg:px-8 lg:py-8 lg:pb-12 backdrop-blur-2xl rounded-lg shadow-xl print:shadow-none transition-all duration-300 ${getMainBg()}`}>
 
       {/* Header */}
       <header className="mb-6 sm:mb-8">
@@ -47,7 +84,11 @@ export const CV = () => {
 
           {/* Photo */}
           <div className="flex-shrink-0">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden bg-gray-100 bg-opacity-70 border-4 border-white/20">
+            <div className={`w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden border-4 transition-colors duration-300 ${
+              isDark 
+                ? 'bg-gray-700/70 border-gray-600/20' 
+                : 'bg-gray-100/70 border-white/20'
+            }`}>
               <img src="/profile.png" alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
@@ -55,16 +96,16 @@ export const CV = () => {
           <div className="flex-grow text-center sm:text-left">
 
             {/* Name & Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+            <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
               <DecryptedText text={personalInfo.name} animateOn="view" maxIterations={20} />
             </h1>
-            <h2 className="text-lg sm:text-xl text-gray-600 mb-4">
+            <h2 className={`text-lg sm:text-xl mb-4 transition-colors duration-300 ${getTextColor('secondary')}`}>
               <DecryptedText text={personalInfo.title} animateOn="view" maxIterations={20} />
             </h2>
 
             {/* Contact details */}
             <FadeContentPrintable blur={true} threshold={0} duration={200} delay={100}>
-              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm sm:text-base text-gray-600">
+              <div className={`flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm sm:text-base transition-colors duration-300 ${getTextColor('secondary')}`}>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <MapPin size={16} className="sm:w-[18px] sm:h-[18px]" />
                   <span>{personalInfo.location}</span>
@@ -75,19 +116,19 @@ export const CV = () => {
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Mail size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800 break-all">
+                  <a href={`mailto:${personalInfo.email}`} className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
                     {personalInfo.email}
                   </a>
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Linkedin size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 break-all">
+                  <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
                     {personalInfo.linkedin}
                   </a>
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <Github size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 break-all">
+                  <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer" className={`break-all transition-colors duration-300 ${getLinkColor()}`}>
                     {personalInfo.github}
                   </a>
                 </div>
@@ -100,59 +141,77 @@ export const CV = () => {
 
       {/* Summary */}
       <FadeContentPrintable blur={true} threshold={0} duration={200} delay={200}>
-        <Section title="Summary">
+        <Section title="Summary" isDark={isDark}>
           {summary.paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">{paragraph}</p>
+            <p key={index} className={`text-sm sm:text-base mb-3 sm:mb-4 transition-colors duration-300 ${getTextColor('body')}`}>
+              {paragraph}
+            </p>
           ))}
         </Section>
       </FadeContentPrintable>
 
       {/* Skills */}
       <FadeContentPrintable blur={true} threshold={0} duration={200} delay={300}>
-        <Section title="Skills">
+        <Section title="Skills" isDark={isDark}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             <div className="lg:col-span-1">
-              <h4 className="text-base sm:text-lg font-semibold mb-2">Technical Skills</h4>
+              <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                Technical Skills
+              </h4>
               <div className="space-y-2">
                 {skills.technical.map(([skill, level]) => (
                   <div key={skill} className="flex items-center justify-between">
-                    <span className="text-sm sm:text-base text-gray-700 pr-2">{skill}</span>
-                    <SkillLevel level={level} />
+                    <span className={`text-sm sm:text-base pr-2 transition-colors duration-300 ${getTextColor('body')}`}>
+                      {skill}
+                    </span>
+                    <SkillLevel level={level} isDark={isDark} />
                   </div>
                 ))}
               </div>
             </div>
             <div className="lg:col-span-1 grid gap-4 sm:gap-6">
               <div>
-                <h4 className="text-base sm:text-lg font-semibold mb-2">Archi. & Dev. Concepts</h4>
+                <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                  Archi. & Dev. Concepts
+                </h4>
                 <div className="space-y-2">
                   {skills.architectural.map(([skill, level]) => (
                     <div key={skill} className="flex items-center justify-between">
-                      <span className="text-sm sm:text-base text-gray-700 pr-2">{skill}</span>
-                      <SkillLevel level={level} />
+                      <span className={`text-sm sm:text-base pr-2 transition-colors duration-300 ${getTextColor('body')}`}>
+                        {skill}
+                      </span>
+                      <SkillLevel level={level} isDark={isDark} />
                     </div>
                   ))}
                 </div>
               </div>
               <div>
-                <h4 className="text-base sm:text-lg font-semibold mb-2">Application Knowledge</h4>
+                <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                  Application Knowledge
+                </h4>
                 <div className="space-y-2">
                   {skills.application.map(([skill, level]) => (
                     <div key={skill} className="flex items-center justify-between">
-                      <span className="text-sm sm:text-base text-gray-700 pr-2">{skill}</span>
-                      <SkillLevel level={level} />
+                      <span className={`text-sm sm:text-base pr-2 transition-colors duration-300 ${getTextColor('body')}`}>
+                        {skill}
+                      </span>
+                      <SkillLevel level={level} isDark={isDark} />
                     </div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="lg:col-span-1">
-              <h4 className="text-base sm:text-lg font-semibold mb-2">Other Relevant Skills</h4>
+              <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                Other Relevant Skills
+              </h4>
               <div className="space-y-2">
                 {skills.other.map(([skill, level]) => (
                   <div key={skill} className="flex items-center justify-between">
-                    <span className="text-sm sm:text-base text-gray-700 pr-2">{skill}</span>
-                    <SkillLevel level={level} />
+                    <span className={`text-sm sm:text-base pr-2 transition-colors duration-300 ${getTextColor('body')}`}>
+                      {skill}
+                    </span>
+                    <SkillLevel level={level} isDark={isDark} />
                   </div>
                 ))}
               </div>
@@ -163,37 +222,49 @@ export const CV = () => {
 
       {/* Experience */}
       <FadeContentPrintable fixMt={true} blur={true} threshold={0} duration={200} delay={400}>
-        <Section title="Work Experience">
+        <Section title="Work Experience" isDark={isDark}>
           <div className="space-y-6 sm:space-y-8">
             {experience.map((job, index) => (
-              <div key={index} className="bg-white bg-opacity-40 rounded-lg border border-gray-200 p-4 sm:p-6 print:border-none print:p-0">
+              <div key={index} className={`rounded-lg border p-4 sm:p-6 print:border-none print:p-0 transition-all duration-300 ${getCardBg()} ${getBorderColor()}`}>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
                   <div className="flex-grow">
-                    <h4 className="text-lg sm:text-xl font-semibold text-gray-800">{job.title}</h4>
-                    <h5 className="text-base sm:text-lg text-gray-600">{job.company}</h5>
+                    <h4 className={`text-lg sm:text-xl font-semibold transition-colors duration-300 ${getTextColor('primary')}`}>
+                      {job.title}
+                    </h4>
+                    <h5 className={`text-base sm:text-lg transition-colors duration-300 ${getTextColor('secondary')}`}>
+                      {job.company}
+                    </h5>
                   </div>
-                  <span className="bg-blue-100/50 text-blue-500 px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto whitespace-nowrap transition-colors duration-300 ${getBadgeBg()}`}>
                     {job.period}
                   </span>
                 </div>
                 <div className="space-y-4 sm:space-y-6">
                   {job.sections.map((section, sIndex) => (
-                    <div key={sIndex} className="bg-gray-200 bg-opacity-25 border border-gray-200 rounded-lg p-3 sm:p-4 print:bg-white print:p-0">
-                      <h6 className="font-semibold text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">{section.title}</h6>
+                    <div key={sIndex} className={`border rounded-lg p-3 sm:p-4 print:bg-white print:p-0 transition-all duration-300 ${getNestedBg()}`}>
+                      <h6 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base transition-colors duration-300 ${getTextColor('primary')}`}>
+                        {section.title}
+                      </h6>
                       {section.items ? (
                         <ul className="list-disc pl-4 sm:pl-5 space-y-2 sm:space-y-3">
                           {section.items.map((item, iIndex) => (
-                            <li key={iIndex} className="text-sm sm:text-base text-gray-700">{item}</li>
+                            <li key={iIndex} className={`text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
+                              {item}
+                            </li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-sm sm:text-base text-gray-700">{section.text}</p>
+                        <p className={`text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
+                          {section.text}
+                        </p>
                       )}
                     </div>
                   ))}
                 </div>
                 {index < experience.length - 1 && (
-                  <div className="h-0 w-full bg-gray-200 print:h-[2px] print:mt-6"></div>
+                  <div className={`h-0 w-full print:h-[2px] print:mt-6 transition-colors duration-300 ${
+                    isDark ? 'bg-gray-600' : 'bg-gray-200'
+                  }`}></div>
                 )}
               </div>
             ))}
@@ -203,19 +274,23 @@ export const CV = () => {
 
       {/* Education */}
       <FadeContentPrintable fixMt={true} blur={true} threshold={0} duration={200} delay={500}>
-        <Section title="Education">
+        <Section title="Education" isDark={isDark}>
           <div>
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-1 sm:gap-2">
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-gray-800">{education.degree}</h4>
-                <h5 className="text-base sm:text-lg text-gray-600">{education.school}</h5>
+                <h4 className={`text-lg sm:text-xl font-semibold transition-colors duration-300 ${getTextColor('primary')}`}>
+                  {education.degree}
+                </h4>
+                <h5 className={`text-base sm:text-lg transition-colors duration-300 ${getTextColor('secondary')}`}>
+                  {education.school}
+                </h5>
               </div>
-              {/* Don't display dates to avoid age discrimination? */}
-              {/* <span className="text-gray-600">{education.period}</span> */}
             </div>
-            <ul className="list-disc pl-4 sm:pl-5 space-y-1 sm:space-y-2 text-sm sm:text-base text-gray-700">
+            <ul className="list-disc pl-4 sm:pl-5 space-y-1 sm:space-y-2 text-sm sm:text-base">
               {education.details.map((detail, index) => (
-                <li key={index}>{detail}</li>
+                <li key={index} className={`transition-colors duration-300 ${getTextColor('body')}`}>
+                  {detail}
+                </li>
               ))}
             </ul>
           </div>
@@ -224,33 +299,43 @@ export const CV = () => {
 
       {/* Additional Information */}
       <FadeContentPrintable blur={true} threshold={0} duration={200} delay={600}>
-        <Section title="Additional Information" className="mb-0">
+        <Section title="Additional Information" className="mb-0" isDark={isDark}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div className="grid gap-4 sm:gap-6">
               <div>
-                <h4 className="text-base sm:text-lg font-semibold mb-2">Languages</h4>
-                <ul className="space-y-1 text-sm sm:text-base text-gray-700">
+                <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                  Languages
+                </h4>
+                <ul className={`space-y-1 text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
                   {additional.languages.map((language, index) => (
                     <li key={index}>{language}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h4 className="text-base sm:text-lg font-semibold mb-2">Certifications</h4>
-                <ul className="space-y-1 text-sm sm:text-base text-gray-700">
+                <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                  Certifications
+                </h4>
+                <ul className={`space-y-1 text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
                   {additional.certifications.map(({ label, link }, index) => (
                     <li key={index}>
-                      <a className="text-blue-600 hover:text-blue-800 break-words" href={link} target="_blank">{label}</a>
+                      <a className={`break-words transition-colors duration-300 ${getLinkColor()}`} href={link} target="_blank">
+                        {label}
+                      </a>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-2">Side Projects</h4>
-              <div className="text-sm sm:text-base text-gray-700">
+              <h4 className={`text-base sm:text-lg font-semibold mb-2 transition-colors duration-300 ${getTextColor('primary')}`}>
+                Side Projects
+              </h4>
+              <div className={`text-sm sm:text-base transition-colors duration-300 ${getTextColor('body')}`}>
                 <p className="font-semibold pb-1">
-                  <a className="text-blue-600 hover:text-blue-800 break-words" href={additional.sideProjects.link} target="_blank">{additional.sideProjects.title}</a>
+                  <a className={`break-words transition-colors duration-300 ${getLinkColor()}`} href={additional.sideProjects.link} target="_blank">
+                    {additional.sideProjects.title}
+                  </a>
                 </p>
                 <p>{additional.sideProjects.description}</p>
               </div>
@@ -260,4 +345,8 @@ export const CV = () => {
       </FadeContentPrintable>
     </div>
   );
+};
+
+CV.propTypes = {
+  isDark: PropTypes.bool.isRequired
 };
